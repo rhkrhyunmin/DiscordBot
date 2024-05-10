@@ -1,19 +1,15 @@
-const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
+// Require the necessary discord.js classes
+const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-  ],
-  partials: [Partials.Channel],
+// Create a new client instance
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+// When the client is ready, run this code (only once)
+// We use 'c' for the event parameter to keep it separate from the already defined 'client'
+client.once(Events.ClientReady, c => {
+    console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
-client.commands = new Collection();
-
-// 준비
-client.on('ready', () => console.log(`${client.user.tag} 에 로그인됨`));
-
+// Log in to Discord with your client's token
 client.login(token);
